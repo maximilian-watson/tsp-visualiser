@@ -25,6 +25,21 @@ def calculate_route_length(route: list[tuple[int, int]]) -> float:
     total_distance += calculate_distance(route[-1], route[0])
     return total_distance
 
+def find_nearest_city(
+    current_city: tuple[int, int],
+    unvisited_cities: list[tuple[int, int]],
+) -> tuple[int, int]:
+    nearest_city = unvisited_cities[0]
+    shortest_distance = calculate_distance(current_city, nearest_city)
+
+    for city in unvisited_cities[1:]:
+        distance = calculate_distance(current_city, city)
+
+        if distance < shortest_distance:
+            nearest_city = city
+            shortest_distance = distance
+
+    return nearest_city
 
 def main() -> None:
     cities = generate_cities(20)
@@ -41,6 +56,12 @@ def main() -> None:
     test_route = [(0, 0), (3, 0), (3, 4)]
     route_length = calculate_route_length(test_route)
     print(f"Route Length: {route_length}")
+
+    current_city = (0, 0)
+    unvisited_cities = [(10, 0), (3, 4), (2, 0)]
+
+    nearest = find_nearest_city(current_city, unvisited_cities)
+    print(nearest)
 
 if __name__ == "__main__":
     main()
