@@ -41,6 +41,22 @@ def find_nearest_city(
 
     return nearest_city
 
+
+def nearest_neighbour_route(
+    cities: list[tuple[int, int]]
+) -> list[tuple[int, int]]:
+    current_city = cities[0]
+    route = [current_city]
+    unvisited_cities = cities[1:]
+    while unvisited_cities:
+        nearest_city = find_nearest_city(current_city, unvisited_cities)
+        route.append(nearest_city)
+        unvisited_cities.remove(nearest_city)
+        current_city = nearest_city
+
+    return route
+
+
 def main() -> None:
     cities = generate_cities(20)
 
