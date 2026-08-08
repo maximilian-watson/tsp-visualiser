@@ -59,6 +59,24 @@ def nearest_neighbour_route(
     return route
 
 
+def repeated_nearest_neighbour(
+    cities: list[tuple[int, int]]
+) -> list[tuple[int, int]]:
+    best_distance = 99999999
+    best_route = []
+
+    for i in range(len(cities)):
+        rotated_cities = cities[i:] + cities[:i]
+        candidate_route = nearest_neighbour_route(rotated_cities)
+        candidate_distance = calculate_route_length(candidate_route)
+
+        if candidate_distance < best_distance:
+            best_route = candidate_route
+            best_distance = candidate_distance
+
+    return best_route
+
+
 def main() -> None:
     cities = generate_cities(20)
 
