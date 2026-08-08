@@ -1,4 +1,4 @@
-from main import calculate_distance, calculate_route_length, find_nearest_city, nearest_neighbour_route
+from main import calculate_distance, calculate_route_length, find_nearest_city, nearest_neighbour_route, repeated_nearest_neighbour
 
 def test_calculate_distance():
     result = calculate_distance((0, 0), (3, 4))
@@ -30,4 +30,13 @@ def test_nearest_neighbour_route():
 
 def test_nearest_neighbour_route_with_no_cities():
     result = nearest_neighbour_route([])
+
     assert result == []
+
+
+def test_repeated_nearest_neighbour():
+    cities = [(0, 0), (0, 1), (0, 3), (1, 2)]
+    result = repeated_nearest_neighbour(cities)
+
+    assert result == [(0, 1), (0, 0), (1, 2), (0, 3)]
+    
