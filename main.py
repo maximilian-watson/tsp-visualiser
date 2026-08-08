@@ -47,21 +47,5 @@ def main() -> None:
     for index, city in enumerate(cities, start=1):
         print(f"City {index}: {city}")
 
-    first_city = (0, 0)
-    second_city = (3, 4)
-
-    distance = calculate_distance(first_city, second_city)
-    print(f"Distance: {distance}")
-
-    test_route = [(0, 0), (3, 0), (3, 4)]
-    route_length = calculate_route_length(test_route)
-    print(f"Route Length: {route_length}")
-
-    current_city = (0, 0)
-    unvisited_cities = [(10, 0), (3, 4), (2, 0)]
-
-    nearest = find_nearest_city(current_city, unvisited_cities)
-    print(nearest)
-
 if __name__ == "__main__":
     main()
