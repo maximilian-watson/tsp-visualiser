@@ -62,7 +62,7 @@ def nearest_neighbour_route(
 def repeated_nearest_neighbour(
     cities: list[tuple[int, int]]
 ) -> list[tuple[int, int]]:
-    best_distance = 99999999
+    best_distance = float("inf")
     best_route = []
 
     for i in range(len(cities)):
