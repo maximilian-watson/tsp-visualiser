@@ -26,3 +26,8 @@ def test_nearest_neighbour_route():
     result = nearest_neighbour_route(cities)
 
     assert result == [(0, 0), (2, 0), (5, 0), (10, 0)]
+
+
+def test_nearest_neighbour_route_with_no_cities():
+    result = nearest_neighbour_route([])
+    assert result == []
