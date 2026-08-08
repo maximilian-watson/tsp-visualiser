@@ -45,6 +45,8 @@ def find_nearest_city(
 def nearest_neighbour_route(
     cities: list[tuple[int, int]]
 ) -> list[tuple[int, int]]:
+    if len(cities) < 1:
+        return []
     current_city = cities[0]
     route = [current_city]
     unvisited_cities = cities[1:]
