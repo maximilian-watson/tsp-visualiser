@@ -120,8 +120,23 @@ def plot_route(
     for i in range(len(closed_route)):
         x_coordinates.append(closed_route[i][0])
         y_coordinates.append(closed_route[i][1])
-    plt.scatter(x_coordinates, y_coordinates)
+
     plt.plot(x_coordinates, y_coordinates)
+    plt.scatter(x_coordinates, y_coordinates)
+    for i, city in enumerate(route):
+        plt.annotate(
+            str(i+1),
+            city,
+            xytext=(5, 5),
+            textcoords="offset points"
+        )
+    plt.scatter(
+        route[0][0], 
+        route[0][1], 
+        marker="*",
+        s=150
+    )
+    
     plt.show()
 
 def main() -> None:
