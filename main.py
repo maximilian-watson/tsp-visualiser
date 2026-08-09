@@ -112,14 +112,7 @@ def plot_cities(
 
 def main() -> None:
     cities = generate_cities(20)
-    x_coordinates = []
-    y_coordinates = []
-
-    for i in range(len(cities)):
-        x_coordinates.append(cities[i][0])
-        y_coordinates.append(cities[i][1])
-    plt.scatter(x_coordinates, y_coordinates)
-    plt.show()
+    plot_cities(cities)
 
 if __name__ == "__main__":
     main()
