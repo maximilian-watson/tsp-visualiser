@@ -110,9 +110,24 @@ def plot_cities(
     plt.scatter(x_coordinates, y_coordinates)
     plt.show()
 
+
+def plot_route(
+    route: list[tuple[int, int]]
+) -> None:
+    closed_route = route + [route[0]]
+    x_coordinates = []
+    y_coordinates = []
+    for i in range(len(closed_route)):
+        x_coordinates.append(closed_route[i][0])
+        y_coordinates.append(closed_route[i][1])
+    plt.scatter(x_coordinates, y_coordinates)
+    plt.plot(x_coordinates, y_coordinates)
+    plt.show()
+
 def main() -> None:
     cities = generate_cities(20)
-    plot_cities(cities)
+    route = nearest_neighbour_route(cities)
+    plot_route(route)
 
 if __name__ == "__main__":
     main()
