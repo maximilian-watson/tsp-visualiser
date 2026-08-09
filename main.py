@@ -77,6 +77,13 @@ def repeated_nearest_neighbour(
     return best_route
 
 
+def two_opt(
+    route: list[tuple[int, int]]
+) -> list[tuple[int, int]]: 
+    return route
+
+
+
 def main() -> None:
     cities = generate_cities(20)
 
