@@ -1,4 +1,4 @@
-from main import calculate_distance, calculate_route_length, find_nearest_city, nearest_neighbour_route, repeated_nearest_neighbour
+from main import calculate_distance, calculate_route_length, find_nearest_city, nearest_neighbour_route, repeated_nearest_neighbour, two_opt
 
 def test_calculate_distance():
     result = calculate_distance((0, 0), (3, 4))
@@ -39,4 +39,18 @@ def test_repeated_nearest_neighbour():
     result = repeated_nearest_neighbour(cities)
 
     assert result == [(0, 1), (0, 0), (1, 2), (0, 3)]
-    
+
+
+def test_two_opt_improves_crossing_route():
+    route = [
+        (0, 0),
+        (6, 6),
+        (7, 5),
+        (7, 1),
+        (6, 0),
+        (0, 6),
+    ]
+
+    result = two_opt(route)
+
+    assert calculate_route_length(result) < calculate_route_length(route)
