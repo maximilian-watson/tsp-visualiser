@@ -1,4 +1,5 @@
 import random, math
+import matplotlib.pyplot as plt
 
 def generate_cities(number_of_cities: int) -> list[tuple[int, int]]:
     """Generate random coordinates representing cities."""
@@ -98,11 +99,27 @@ def two_opt(
     return route
 
 
+def plot_cities(
+    cities: list[tuple[int, int]]
+) -> None:
+    x_coordinates = []
+    y_coordinates = []
+    for i in range(len(cities)):
+        x_coordinates.append(cities[i][0])
+        y_coordinates.append(cities[i][1])
+    plt.scatter(x_coordinates, y_coordinates)
+    plt.show()
+
 def main() -> None:
     cities = generate_cities(20)
+    x_coordinates = []
+    y_coordinates = []
 
-    for index, city in enumerate(cities, start=1):
-        print(f"City {index}: {city}")
+    for i in range(len(cities)):
+        x_coordinates.append(cities[i][0])
+        y_coordinates.append(cities[i][1])
+    plt.scatter(x_coordinates, y_coordinates)
+    plt.show()
 
 if __name__ == "__main__":
     main()
