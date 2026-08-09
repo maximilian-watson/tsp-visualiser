@@ -80,8 +80,22 @@ def repeated_nearest_neighbour(
 def two_opt(
     route: list[tuple[int, int]]
 ) -> list[tuple[int, int]]: 
-    return route
 
+    improved = True
+    while improved:
+        improved = False
+        for i in range(1, len(route) - 1):
+            for j in range(i + 1, len(route)):
+                before = route[:i]
+                middle = route[i:j+1]
+                after = route[j + 1:]
+                candidate_route = before + middle[::-1] + after
+                candidate_distance = calculate_route_length(candidate_route)
+                current_distance = calculate_route_length(route)
+                if candidate_distance < current_distance:
+                    route = candidate_route
+                    improved = True
+    return route
 
 
 def main() -> None:
