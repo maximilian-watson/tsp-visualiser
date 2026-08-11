@@ -140,39 +140,34 @@ def plot_route(
         s=150
     )
 
-    
+def run_experiments(
+    number_of_trials: int,
+    number_of_cities: int
+) -> None:
+    nearest_total = 0.0
+    repeated_total = 0.0
+    improved_total = 0.0
+    for trial in range(number_of_trials):
+        cities = generate_cities(number_of_cities)
+        nearest_route = nearest_neighbour_route(cities)
+        repeated_route = repeated_nearest_neighbour(cities)
+        improved_route = two_opt(repeated_route)
+        nearest_distance = calculate_route_length(nearest_route)
+        repeated_distance = calculate_route_length(repeated_route)
+        improved_distance = calculate_route_length(improved_route)
+        nearest_total += nearest_distance
+        repeated_total += repeated_distance
+        improved_total += improved_distance
+        print("Nearest Neighbour:", nearest_distance)
+        print("Repeated Nearest Neighbour:", repeated_distance)
+        print("Repeated + 2-opt:", improved_distance)
+    print("Nearest Neighbour Average:", nearest_total / number_of_trials)
+    print("Repeated Nearest Neighbour Average:", repeated_total / number_of_trials)
+    print("Repeated + 2-opt Average:", improved_total / number_of_trials)
+
 
 def main() -> None:
-    cities = generate_cities(20)
-    nearest_route = nearest_neighbour_route(cities)
-    repeated_route = repeated_nearest_neighbour(cities)
-    improved_route = two_opt(repeated_route)
-    nearest_distance = calculate_route_length(nearest_route)
-    repeated_distance = calculate_route_length(repeated_route)
-    improved_distance = calculate_route_length(improved_route)
-    print("Nearest Neighbour:", nearest_distance)
-    print("Repeated Nearest Neighbour:", repeated_distance)
-    print("Repeated + 2-opt", improved_distance)
-
-    fig, axes = plt.subplots(1, 3, figsize=(15, 7))
-
-    plot_route(
-        nearest_route,
-        f"Nearest Neighbour - {nearest_distance:.2f}",
-        axes[0]
-    )
-    plot_route(
-        repeated_route,
-        f"Repeated Nearest Neighbour - {repeated_distance:.2f}",
-        axes[1]
-    )
-    plot_route(
-        improved_route,
-        f"Repeated + 2-opt - {improved_distance:.2f}",
-        axes[2]
-    )
-    plt.tight_layout()
-    plt.show()
+    run_experiments(10, 20)
 
 if __name__ == "__main__":
     main()
