@@ -113,9 +113,10 @@ def plot_cities(
 
 def plot_route(
     route: list[tuple[int, int]],
-    title: str
+    title: str,
+    axis
 ) -> None:
-    plt.title(title)
+    axis.set_title(title)
     closed_route = route + [route[0]]
     x_coordinates = []
     y_coordinates = []
@@ -123,23 +124,23 @@ def plot_route(
         x_coordinates.append(closed_route[i][0])
         y_coordinates.append(closed_route[i][1])
 
-    plt.plot(x_coordinates, y_coordinates)
-    plt.scatter(x_coordinates, y_coordinates)
+    axis.plot(x_coordinates, y_coordinates)
+    axis.scatter(x_coordinates, y_coordinates)
     for i, city in enumerate(route):
-        plt.annotate(
+        axis.annotate(
             str(i+1),
             city,
             xytext=(5, 5),
             textcoords="offset points"
         )
-    plt.scatter(
+    axis.scatter(
         route[0][0], 
         route[0][1], 
         marker="*",
         s=150
     )
 
-    plt.show()
+    
 
 def main() -> None:
     cities = generate_cities(20)
@@ -152,17 +153,26 @@ def main() -> None:
     print("Nearest Neighbour:", nearest_distance)
     print("Repeated Nearest Neighbour:", repeated_distance)
     print("Repeated + 2-opt", improved_distance)
+
+    fig, axes = plt.subplots(1, 3, figsize=(15, 7))
+
     plot_route(
         nearest_route,
-        f"Nearest Neighbour - {nearest_distance:.2f}"
+        f"Nearest Neighbour - {nearest_distance:.2f}",
+        axes[0]
     )
     plot_route(
         repeated_route,
-        f"Repeated Nearest Neighbour - {repeated_distance:.2f}"
+        f"Repeated Nearest Neighbour - {repeated_distance:.2f}",
+        axes[1]
     )
     plot_route(
         improved_route,
-        f"Repeated + 2-opt - {improved_distance:.2f}"
+        f"Repeated + 2-opt - {improved_distance:.2f}",
+        axes[2]
     )
+    plt.tight_layout()
+    plt.show()
+
 if __name__ == "__main__":
     main()
