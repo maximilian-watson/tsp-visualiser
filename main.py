@@ -112,8 +112,10 @@ def plot_cities(
 
 
 def plot_route(
-    route: list[tuple[int, int]]
+    route: list[tuple[int, int]],
+    title: str
 ) -> None:
+    plt.title(title)
     closed_route = route + [route[0]]
     x_coordinates = []
     y_coordinates = []
@@ -150,6 +152,17 @@ def main() -> None:
     print("Nearest Neighbour:", nearest_distance)
     print("Repeated Nearest Neighbour:", repeated_distance)
     print("Repeated + 2-opt", improved_distance)
-
+    plot_route(
+        nearest_route,
+        f"Nearest Neighbour - {nearest_distance:.2f}"
+    )
+    plot_route(
+        repeated_route,
+        f"Repeated Nearest Neighbour - {repeated_distance:.2f}"
+    )
+    plot_route(
+        improved_route,
+        f"Repeated + 2-opt - {improved_distance:.2f}"
+    )
 if __name__ == "__main__":
     main()
