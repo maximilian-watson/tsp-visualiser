@@ -136,13 +136,20 @@ def plot_route(
         marker="*",
         s=150
     )
-    
+
     plt.show()
 
 def main() -> None:
     cities = generate_cities(20)
-    route = nearest_neighbour_route(cities)
-    plot_route(route)
+    nearest_route = nearest_neighbour_route(cities)
+    repeated_route = repeated_nearest_neighbour(cities)
+    improved_route = two_opt(repeated_route)
+    nearest_distance = calculate_route_length(nearest_route)
+    repeated_distance = calculate_route_length(repeated_route)
+    improved_distance = calculate_route_length(improved_route)
+    print("Nearest Neighbour:", nearest_distance)
+    print("Repeated Nearest Neighbour:", repeated_distance)
+    print("Repeated + 2-opt", improved_distance)
 
 if __name__ == "__main__":
     main()
