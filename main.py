@@ -158,16 +158,24 @@ def run_experiments(
         nearest_total += nearest_distance
         repeated_total += repeated_distance
         improved_total += improved_distance
-        print("Nearest Neighbour:", nearest_distance)
-        print("Repeated Nearest Neighbour:", repeated_distance)
-        print("Repeated + 2-opt:", improved_distance)
-    print("Nearest Neighbour Average:", nearest_total / number_of_trials)
-    print("Repeated Nearest Neighbour Average:", repeated_total / number_of_trials)
-    print("Repeated + 2-opt Average:", improved_total / number_of_trials)
+        
+    nearest_average = nearest_total / number_of_trials
+    print(f"Nearest Neighbour Average: {nearest_average:.2f}")
+    repeated_average = repeated_total / number_of_trials
+    print(f"Repeated Nearest Neighbour Average: {repeated_average:.2f}")
+    improved_average = improved_total / number_of_trials
+    print(f"Repeated + 2-opt Average: {improved_average:.2f}")
 
+    repeated_improvement = (nearest_average - repeated_average) / nearest_average * 100
+    two_opt_improvement = (repeated_average - improved_average) / repeated_average * 100
+    overall_improvement = (nearest_average - improved_average) / nearest_average * 100
+
+    print(f"Repeated Nearest Neighbour Improvement: {repeated_improvement:.2f}%")
+    print(f"2-opt Improvement: {two_opt_improvement:.2f}%")
+    print(f"Overall Improvement: {overall_improvement:.2f}%")
 
 def main() -> None:
-    run_experiments(10, 20)
+    run_experiments(100, 20)
 
 if __name__ == "__main__":
     main()
