@@ -175,6 +175,7 @@ def run_experiments(
     print(f"Overall Improvement: {overall_improvement:.2f}%")
 
 def main() -> None:
+    random.seed(32)
     run_experiments(100, 20)
 
 if __name__ == "__main__":

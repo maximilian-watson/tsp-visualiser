@@ -1,4 +1,4 @@
-from main import calculate_distance, calculate_route_length, find_nearest_city, nearest_neighbour_route, repeated_nearest_neighbour, two_opt
+from main import calculate_distance, calculate_route_length, find_nearest_city, nearest_neighbour_route, repeated_nearest_neighbour, two_opt, brute_force_route
 
 def test_calculate_distance():
     result = calculate_distance((0, 0), (3, 4))
@@ -54,3 +54,16 @@ def test_two_opt_improves_crossing_route():
     result = two_opt(route)
 
     assert calculate_route_length(result) < calculate_route_length(route)
+
+
+def test_brute_force_route_finds_optimal_route():
+    cities = [
+        (0, 0),
+        (3, 0),
+        (3, 4),
+        (0, 4)
+    ]
+
+    result = brute_force_route(cities)
+
+    assert calculate_route_length(result) == 14.0
