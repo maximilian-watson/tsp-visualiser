@@ -189,9 +189,54 @@ def run_experiments(
     print(f"Overall Improvement: {overall_improvement:.2f}%")
 
 
+def run_optimal_experiments(
+    number_of_trials: int,
+    number_of_cities: int
+) -> None:
+    optimal_total = 0.0
+    nearest_total = 0.0
+    repeated_total = 0.0
+    improved_total = 0.0
+    for trial in range(number_of_trials):
+        cities = generate_cities(number_of_cities)
+
+        optimal_route = brute_force_route(cities)
+        nearest_route = nearest_neighbour_route(cities)
+        repeated_route = repeated_nearest_neighbour(cities)
+        improved_route = two_opt(repeated_route)
+
+        optimal_distance = calculate_route_length(optimal_route)
+        nearest_distance = calculate_route_length(nearest_route)
+        repeated_distance = calculate_route_length(repeated_route)
+        improved_distance = calculate_route_length(improved_route)
+
+        optimal_total += optimal_distance
+        nearest_total += nearest_distance
+        repeated_total += repeated_distance
+        improved_total += improved_distance
+
+    optimal_average = optimal_total / number_of_trials
+    nearest_average = nearest_total / number_of_trials
+    repeated_average = repeated_total / number_of_trials
+    improved_average = improved_total / number_of_trials
+
+    nearest_to_optimal = (nearest_average - optimal_average) / optimal_average * 100
+    repeated_to_optimal = (repeated_average - optimal_average) / optimal_average * 100
+    improved_to_optimal = (improved_average - optimal_average) / optimal_average * 100
+
+    print(f"Optimal Average: {optimal_average:.2f}")
+    print(f"Nearest Neighbour Average: {nearest_average:.2f}")
+    print(f"Repeated Nearest Neighbour Average: {repeated_average:.2f}")
+    print(f"Repeated + 2-opt Average: {improved_average:.2f}")
+
+    print(f"Nearest Neighbour above optimal: {nearest_to_optimal:.2f}%")
+    print(f"Repeated Nearest Neighbour above optimal: {repeated_to_optimal:.2f}%")
+    print(f"Repeated + 2-opt above optimal: {improved_to_optimal:.2f}%")
+
 def main() -> None:
     random.seed(32)
-    run_experiments(100, 20)
+    #run_experiments(100, 20)
+    run_optimal_experiments(10, 7)
 
 if __name__ == "__main__":
     main()
