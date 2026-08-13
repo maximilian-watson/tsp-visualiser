@@ -1,4 +1,4 @@
-import random, math
+import random, math, itertools
 import matplotlib.pyplot as plt
 
 def generate_cities(number_of_cities: int) -> list[tuple[int, int]]:
@@ -64,8 +64,6 @@ def repeated_nearest_neighbour(
     cities: list[tuple[int, int]]
 ) -> list[tuple[int, int]]:
     best_distance = float("inf")
-    best_route = []
-
     for i in range(len(cities)):
         rotated_cities = cities[i:] + cities[:i]
         candidate_route = nearest_neighbour_route(rotated_cities)
@@ -140,6 +138,22 @@ def plot_route(
         s=150
     )
 
+
+def brute_force_route(
+    cities: list[tuple[int, int]]
+) -> list[tuple[int, int]]:
+    best_distance = float("inf")
+    best_route = []
+    
+    for route in itertools.permutations(cities):
+        current_distance = calculate_route_length(route)
+        if current_distance < best_distance:
+            best_route = list(route)
+            best_distance = current_distance
+
+    return best_route
+
+
 def run_experiments(
     number_of_trials: int,
     number_of_cities: int
@@ -173,6 +187,7 @@ def run_experiments(
     print(f"Repeated Nearest Neighbour Improvement: {repeated_improvement:.2f}%")
     print(f"2-opt Improvement: {two_opt_improvement:.2f}%")
     print(f"Overall Improvement: {overall_improvement:.2f}%")
+
 
 def main() -> None:
     random.seed(32)
