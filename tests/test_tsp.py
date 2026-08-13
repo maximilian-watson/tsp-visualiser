@@ -68,3 +68,15 @@ def test_brute_force_route_finds_optimal_route():
     result = brute_force_route(cities)
 
     assert calculate_route_length(result) == 22.0
+
+
+def test_brute_force_route_contains_all_cities():
+    cities = [
+        (0, 0),
+        (3, 0),
+        (6, 4),
+        (3, 8),
+        (0, 4)
+    ]
+    result = brute_force_route(cities)
+    assert sorted(result) == sorted(cities)
