@@ -1,4 +1,4 @@
-import random, math, itertools
+import random, math, itertools, time
 import matplotlib.pyplot as plt
 
 def generate_cities(number_of_cities: int) -> list[tuple[int, int]]:
@@ -197,13 +197,33 @@ def run_optimal_experiments(
     nearest_total = 0.0
     repeated_total = 0.0
     improved_total = 0.0
-    for trial in range(number_of_trials):
+
+    optimal_time_total = 0.0
+    nearest_time_total = 0.0
+    repeated_time_total = 0.0
+    two_opt_time_total = 0.0
+    for _ in range(number_of_trials):
         cities = generate_cities(number_of_cities)
 
+        start_time = time.perf_counter()
         optimal_route = brute_force_route(cities)
+        end_time = time.perf_counter()
+        optimal_time_total += end_time - start_time
+
+        start_time = time.perf_counter()
         nearest_route = nearest_neighbour_route(cities)
+        end_time = time.perf_counter()
+        nearest_time_total += end_time - start_time
+
+        start_time = time.perf_counter()
         repeated_route = repeated_nearest_neighbour(cities)
+        end_time = time.perf_counter()
+        repeated_time_total += end_time - start_time
+
+        start_time = time.perf_counter()
         improved_route = two_opt(repeated_route)
+        end_time = time.perf_counter()
+        two_opt_time_total += end_time - start_time
 
         optimal_distance = calculate_route_length(optimal_route)
         nearest_distance = calculate_route_length(nearest_route)
@@ -224,6 +244,13 @@ def run_optimal_experiments(
     repeated_to_optimal = (repeated_average - optimal_average) / optimal_average * 100
     improved_to_optimal = (improved_average - optimal_average) / optimal_average * 100
 
+    optimal_time = optimal_time_total / number_of_trials
+    nearest_time = nearest_time_total / number_of_trials
+    repeated_time = repeated_time_total / number_of_trials
+    two_opt_time = two_opt_time_total / number_of_trials
+
+    improved_time = repeated_time + two_opt_time
+
     print(f"Optimal Average: {optimal_average:.2f}")
     print(f"Nearest Neighbour Average: {nearest_average:.2f}")
     print(f"Repeated Nearest Neighbour Average: {repeated_average:.2f}")
@@ -233,10 +260,16 @@ def run_optimal_experiments(
     print(f"Repeated Nearest Neighbour above optimal: {repeated_to_optimal:.2f}%")
     print(f"Repeated + 2-opt above optimal: {improved_to_optimal:.2f}%")
 
+    print(f"Optimal time: {optimal_time:.5f}s")
+    print(f"Nearest time: {nearest_time:.5f}s")
+    print(f"Repeated time: {repeated_time:.5f}s")
+    print(f"2-opt time: {two_opt_time:.5f}s")
+    print(f"Repeated + 2-opt time: {improved_time:.5f}s")
+
 def main() -> None:
     random.seed(32)
     #run_experiments(100, 20)
-    run_optimal_experiments(10, 7)
+    run_optimal_experiments(10, 8)
 
 if __name__ == "__main__":
     main()
