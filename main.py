@@ -268,6 +268,7 @@ def run_optimal_experiments(
 
     return optimal_time, nearest_time, repeated_time, improved_time
 
+
 def plot_runtime_scaling(
     city_counts: list[int],
     optimal_times: list[float],
@@ -283,6 +284,82 @@ def plot_runtime_scaling(
     plt.xlabel("Number of Cities")
     plt.ylabel("Average Runtime (seconds)")
     plt.title("TSP Algorithm Runtime Scaling")
+
+    plt.yscale("log")
+    plt.xticks(city_counts)
+    plt.grid(True)
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
+
+
+def run_heuristic_timing_experiment(
+    number_of_trials: int, 
+    number_of_cities: int
+) -> tuple[float, float, float]:
+    nearest_time_total = 0.0
+    repeated_time_total = 0.0
+    two_opt_time_total = 0.0
+
+    for _ in range(number_of_trials):
+        cities = generate_cities(number_of_cities)
+
+        start_time = time.perf_counter()
+        nearest_neighbour_route(cities)
+        end_time = time.perf_counter()
+        nearest_time_total += end_time - start_time
+
+        start_time = time.perf_counter()
+        repeated_route = repeated_nearest_neighbour(cities)
+        end_time = time.perf_counter()
+        repeated_time_total += end_time - start_time
+
+        start_time = time.perf_counter()
+        two_opt(repeated_route)
+        end_time = time.perf_counter()
+        two_opt_time_total += end_time - start_time
+
+    nearest_time = nearest_time_total / number_of_trials
+    repeated_time = repeated_time_total / number_of_trials
+    two_opt_time = two_opt_time_total / number_of_trials
+
+    improved_time = repeated_time + two_opt_time
+
+    return nearest_time, repeated_time, improved_time
+
+
+def plot_heuristic_runtime_scaling(
+    city_counts: list[int],
+    nearest_times: list[float],
+    repeated_times: list[float],
+    improved_times: list[float]
+) -> None:
+    plt.figure()
+
+    plt.plot(
+        city_counts,
+        nearest_times,
+        marker="o",
+        label="Nearest Neighbour"
+    )
+
+    plt.plot(
+        city_counts,
+        repeated_times,
+        marker="o",
+        label="Repeated Nearest Neighbour"
+    )
+
+    plt.plot(
+        city_counts,
+        improved_times,
+        marker="o",
+        label="Repeated NN + 2-opt"
+    )
+
+    plt.xlabel("Number of Cities")
+    plt.ylabel("Average Runtime (seconds)")
+    plt.title("Heuristic Runtime Scaling")
 
     plt.yscale("log")
     plt.xticks(city_counts)
@@ -319,5 +396,34 @@ def main() -> None:
         improved_times
     )
 
+    large_city_counts = [10, 20, 50, 100]
+
+    large_nearest_times = []
+    large_repeated_times = []
+    large_improved_times = []
+
+    for number_of_cities in large_city_counts:
+        print(f"\n--- {number_of_cities} cities ---")
+
+        nearest_time, repeated_time, improved_time = (
+            run_heuristic_timing_experiment(5, number_of_cities)
+        )
+
+        large_nearest_times.append(nearest_time)
+        large_repeated_times.append(repeated_time)
+        large_improved_times.append(improved_time)
+
+        print(f"Nearest time: {nearest_time:.8f}s")
+        print(f"Repeated time: {repeated_time:.8f}s")
+        print(f"Repeated + 2-opt time: {improved_time:.8f}s")
+
+    plot_heuristic_runtime_scaling(
+        large_city_counts,
+        large_nearest_times,
+        large_repeated_times,
+        large_improved_times
+    )
+
+    
 if __name__ == "__main__":
     main()
