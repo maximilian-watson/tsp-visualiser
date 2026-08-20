@@ -290,6 +290,11 @@ def plot_runtime_scaling(
     plt.grid(True)
     plt.legend()
     plt.tight_layout()
+    plt.savefig(
+        "results/exact_runtime_scaling.png",
+        dpi=300,
+        bbox_inches="tight"
+    )
     plt.show()
 
 
@@ -366,6 +371,11 @@ def plot_heuristic_runtime_scaling(
     plt.grid(True)
     plt.legend()
     plt.tight_layout()
+    plt.savefig(
+        "results/heuristic_runtime_scaling.png",
+        dpi=300,
+        bbox_inches="tight"
+    )
     plt.show()
 
 def main() -> None:
@@ -424,6 +434,6 @@ def main() -> None:
         large_improved_times
     )
 
-    
+
 if __name__ == "__main__":
     main()
