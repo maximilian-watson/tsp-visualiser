@@ -192,7 +192,7 @@ def run_experiments(
 def run_optimal_experiments(
     number_of_trials: int,
     number_of_cities: int
-) -> None:
+) -> tuple[float, float, float , float]:
     optimal_total = 0.0
     nearest_total = 0.0
     repeated_total = 0.0
@@ -266,6 +266,8 @@ def run_optimal_experiments(
     print(f"2-opt time: {two_opt_time:.5f}s")
     print(f"Repeated + 2-opt time: {improved_time:.5f}s")
 
+    return optimal_time, nearest_time, repeated_time, improved_time
+
 def plot_runtime_scaling(
     city_counts: list[int],
     optimal_times: list[float],
@@ -291,21 +293,30 @@ def plot_runtime_scaling(
 
 def main() -> None:
     random.seed(42)
-    print("\n--- 7 cities ---")
-    run_optimal_experiments(10, 7)
+    city_counts = [7, 8 ,9]
 
-    print("\n--- 8 cities ---")
-    run_optimal_experiments(10, 8)
+    optimal_times = []
+    nearest_times = []
+    repeated_times = []
+    improved_times = []
 
-    print("\n--- 9 cities ---")
-    run_optimal_experiments(10, 9)
+    for number_of_cities in city_counts:
+        print(f"\n--- {number_of_cities} cities ---")
+        optimal_time, nearest_time, repeated_time, improved_time = (
+            run_optimal_experiments(10, number_of_cities)
+        )
+
+        optimal_times.append(optimal_time)
+        nearest_times.append(nearest_time)
+        repeated_times.append(repeated_time)
+        improved_times.append(improved_time)
 
     plot_runtime_scaling(
-        [7, 8, 9],
-        [0.00655, 0.06372, 0.59495],
-        [0.00001, 0.00001, 0.00001],
-        [0.00005, 0.00007, 0.00009],
-        [0.00009, 0.00012, 0.00017]
+        city_counts,
+        optimal_times,
+        nearest_times,
+        repeated_times,
+        improved_times
     )
 
 if __name__ == "__main__":
