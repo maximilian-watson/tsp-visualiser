@@ -266,10 +266,47 @@ def run_optimal_experiments(
     print(f"2-opt time: {two_opt_time:.5f}s")
     print(f"Repeated + 2-opt time: {improved_time:.5f}s")
 
+def plot_runtime_scaling(
+    city_counts: list[int],
+    optimal_times: list[float],
+    nearest_times: list[float],
+    repeated_times: list[float],
+    improved_times: list[float]
+) -> None:
+    plt.plot(city_counts, optimal_times, marker="o", label="Brute Force")
+    plt.plot(city_counts, nearest_times, marker="o", label="Nearest Neighbour")
+    plt.plot(city_counts, repeated_times, marker="o", label="Repeated NN")
+    plt.plot(city_counts, improved_times, marker="o", label="Repeated NN + 2-opt")
+
+    plt.xlabel("Number of Cities")
+    plt.ylabel("Average Runtime (seconds)")
+    plt.title("TSP Algorithm Runtime Scaling")
+
+    plt.yscale("log")
+    plt.xticks(city_counts)
+    plt.grid(True)
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
+
 def main() -> None:
-    random.seed(32)
-    #run_experiments(100, 20)
+    random.seed(42)
+    print("\n--- 7 cities ---")
+    run_optimal_experiments(10, 7)
+
+    print("\n--- 8 cities ---")
     run_optimal_experiments(10, 8)
+
+    print("\n--- 9 cities ---")
+    run_optimal_experiments(10, 9)
+
+    plot_runtime_scaling(
+        [7, 8, 9],
+        [0.00655, 0.06372, 0.59495],
+        [0.00001, 0.00001, 0.00001],
+        [0.00005, 0.00007, 0.00009],
+        [0.00009, 0.00012, 0.00017]
+    )
 
 if __name__ == "__main__":
     main()
