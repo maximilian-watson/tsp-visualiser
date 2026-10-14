@@ -11,6 +11,17 @@ The project compares the solution quality and runtime of heuristic approaches ag
 - 2-Opt
 - Brute Force
 
+## Example Visualisation
+
+The same randomly generated TSP instance solved using different heurist approaches:
+![TSP route comparison](results/example_route.png)
+
+can be run by
+
+```
+python example_visualisation.py
+```
+
 # Experimental Results
 
 The algorithms were compared using randomly generated TSP instaces with a fixed random seed for reproducibility.
